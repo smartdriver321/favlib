@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { create } from 'zustand'
 
-const BASE_URL = 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
 export const useBookStore = create((set) => ({
@@ -18,7 +18,7 @@ export const useBookStore = create((set) => ({
 		set({ isLoading: true, error: null, message: null })
 
 		try {
-			const response = await axios.post(`${BASE_URL}/api/add-book`, {
+			const response = await axios.post(`${API_URL}/api/add-book`, {
 				image,
 				title,
 				subtitle,
@@ -45,7 +45,7 @@ export const useBookStore = create((set) => ({
 		set({ isLoading: true, error: null })
 
 		try {
-			const response = await axios.get(`${BASE_URL}/api/fetch-books`)
+			const response = await axios.get(`${API_URL}/api/fetch-books`)
 
 			set({ books: response.data.books, isLoading: false })
 		} catch (error) {
@@ -62,7 +62,7 @@ export const useBookStore = create((set) => ({
 		set({ isLoading: true, error: null })
 
 		try {
-			const response = await axios.get(`${BASE_URL}/api/fetch-book/${id}`)
+			const response = await axios.get(`${API_URL}/api/fetch-book/${id}`)
 
 			set({ book: response.data.book, isLoading: false })
 		} catch (error) {
@@ -79,7 +79,7 @@ export const useBookStore = create((set) => ({
 		set({ isLoading: true, error: null })
 
 		try {
-			const response = await axios.get(`${BASE_URL}/api/search?${searchTerm}`)
+			const response = await axios.get(`${API_URL}/api/search?${searchTerm}`)
 
 			set({ books: response.data.books, isLoading: false })
 		} catch (error) {
@@ -96,7 +96,7 @@ export const useBookStore = create((set) => ({
 		set({ isLoading: true, error: null, message: null })
 
 		try {
-			const response = await axios.post(`${BASE_URL}/api/update-book/${id}`, {
+			const response = await axios.post(`${API_URL}/api/update-book/${id}`, {
 				image,
 				title,
 				subtitle,
@@ -123,7 +123,7 @@ export const useBookStore = create((set) => ({
 	deleteBook: async (id) => {
 		set({ isLoading: true, error: null, message: null })
 		try {
-			const response = await axios.delete(`${BASE_URL}/api/delete-book/${id}`)
+			const response = await axios.delete(`${API_URL}/api/delete-book/${id}`)
 			const { message } = response.data
 
 			set({ message, isLoading: false })

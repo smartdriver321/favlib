@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { create } from 'zustand'
 
-const BASE_URL = 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
 export const useAuthStore = create((set) => ({
@@ -18,7 +18,7 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, message: null })
 
 		try {
-			const response = await axios.post(`${BASE_URL}/api/signup`, {
+			const response = await axios.post(`${API_URL}/api/signup`, {
 				username,
 				email,
 				password,
@@ -42,7 +42,7 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, message: null, error: null })
 
 		try {
-			const response = await axios.post(`${BASE_URL}/api/login`, {
+			const response = await axios.post(`${API_URL}/api/login`, {
 				username,
 				password,
 			})
@@ -69,7 +69,7 @@ export const useAuthStore = create((set) => ({
 		set({ fetchingUser: true, error: null })
 
 		try {
-			const response = await axios.get(`${BASE_URL}/api/fetch-user`)
+			const response = await axios.get(`${API_URL}/api/fetch-user`)
 
 			set({ user: response.data.user, fetchingUser: false })
 		} catch (error) {
@@ -86,7 +86,7 @@ export const useAuthStore = create((set) => ({
 	logout: async () => {
 		set({ isLoading: true, error: null, message: null })
 		try {
-			const response = await axios.post(`${BASE_URL}/api/logout`)
+			const response = await axios.post(`${API_URL}/api/logout`)
 
 			const { message } = response.data
 			set({
